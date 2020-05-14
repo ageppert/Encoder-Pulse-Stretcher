@@ -23,6 +23,9 @@ extern "C" {
 // Hardware for Built-in LED
 	#define PIN_BUILT_IN_LED           13   // Ever present Arduino blink LED
 
+// Hardware for voltage monitor
+  #define PIN_BATTERY_VOLTAGE        A7    // Voltage monitor is 1/2 Vin
+
 // Hardware for incoming (real) encoder
 	#define PIN_ENCODER_IN_A           17  
   #define PIN_ENCODER_IN_B           18   

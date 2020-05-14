@@ -2,6 +2,13 @@
  * Encoder Pulse Stretcher
  * 2020 Andy Geppert
  * Arduino Nano Every (Arduino MegaAVR Boards must be added through boards manager)
+ * 
+ * Monitors incoming encoder A & B channels with interrupt precision on channel A.
+ * Determines period between channel A pulses, and the direction of rotation.
+ * Updates outgoing virtual encoder A & B channels, with increased period per in/out ratio.
+ * 
+ * 
+ * 
  */
 
 #include <stdint.h>
@@ -11,9 +18,9 @@
 #include "Serial_Debug.h"
 #include "OLED_Screen.h"
 #include "Buttons.h"
+#include "Analog_Input.h"
 
-
-// #define DEBUG 1
+#define DEBUG 1
 
 uint8_t TopLevelState;   // Master State Machine
 bool TopLevelStateChanged = false;
@@ -32,6 +39,7 @@ enum TopLevelState
   */
 void setup() {
   HeartBeatSetup();
+  AnalogSetup();
   SerialDebugSetup();
     Serial.begin(115200);  // Need to move this serial stuff into the Serial_Debug.c file out of here!
     //while (!Serial) { ; } // wait for serial port to connect. Needed for native USB port only
@@ -53,10 +61,9 @@ void loop() {
                           *********************
   */
   HeartBeat();
-  #ifdef DEBUG
-  Serial.println("DEBUG enabled."); // Need to abstract this debug stuff
-  #endif
-
+  AnalogUpdate();
+  OLEDScreenUpdate();
+  
   /*                      ************************
                           *** User Interaction ***
                           ************************
@@ -69,8 +76,6 @@ void loop() {
   if ( (ButtonReleased == true) && (Button1HoldTime >= 500) ){
     Button1State(1); // Pause between presses, clear the duration
     ButtonReleased = false;
-    ColorFontSymbolToDisplay++;
-    if(ColorFontSymbolToDisplay>3) { ColorFontSymbolToDisplay = 0; }
     TopLevelState++;
     TopLevelStateChanged = true; // User application has one time to use this before it is reset.
 }

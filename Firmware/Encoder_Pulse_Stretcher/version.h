@@ -12,12 +12,12 @@
 
 // TO DO: connect version number to a value that the firmware can interact with and display.
 
-#define HARDWARE_VERSION  "Breadboard"   		
+#define HARDWARE_VERSION  "0.0.1 Breadboard"   		
 /* 
  * V0.1 the first batch of 5 prototype green boards. 
  * V0.2 hand re-worked updates on V0.1 for first bring-up.
 */
-#define FIRMWARE_VERSION  "0.0.4"   // Working on basic functionality of all connected hardware.
+#define FIRMWARE_VERSION  "0.0.5 Vin Display"
 
 const String FirmwareVersion = FIRMWARE_VERSION;
 const String HardwareVersion = HARDWARE_VERSION;

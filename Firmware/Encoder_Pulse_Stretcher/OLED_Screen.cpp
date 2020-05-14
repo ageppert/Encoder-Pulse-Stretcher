@@ -10,6 +10,8 @@
 #include <Wire.h>   // Default is SCL0 and SDA0 on pins 19/18 of Teensy LC
 //#define Pin_I2C_Bus_Data       18    // Default is SCL0 and SDA0 on pins 19/18 of Teensy LC. #define not needed, as Wire.h library takes care of this pin configuration.
 //#define Pin_I2C_Bus_Clock      19    // Default is SCL0 and SDA0 on pins 19/18 of Teensy LC. #define not needed, as Wire.h library takes care of this pin configuration.
+#include "Analog_Input.h"
+#include "HardwareIOMap.h"
 
 #include <Adafruit_GFX.h>
 //#include "src/Adafruit-GFX-Library-1.4.8/Adafruit_GFX.h" // ToDo: include this and use a later version.
@@ -28,26 +30,28 @@ uint8_t Encoder_Output_PPR = 3; // TO DO move this to another file
 uint8_t Encoder_Input_Speed = 0; // TO DO move this to another file
 uint8_t Encoder_Input_Dir = 1;   // TO DO move this to another file
 
-// Call this routine to update the OLED display.
-// Refreshing the OLED display is otherwise not stable, possibly due to some library compression stuff.
-void OLED_Display_Stability_Work_Around() {   
-  display.invertDisplay(true);        // Inverting and
-  display.invertDisplay(false);       // Reverting the screen memory seems to be a good workaround.
+void OLEDScreenSplash() {
+  display.clearDisplay();
+  display.setCursor(0, 0);     // Start at top-left corner
+  display.println(F("    Encoder Pulse    "));
+  display.println(F("  S T R E T C H E R  "));
+  display.println(F("   by Andy Geppert   "));
   display.display();
 }
 
-void OLEDScreenSplash() {
+void OLEDScreenStatus() {
   display.clearDisplay();
-  display.display();
   display.setCursor(0, 0);     // Start at top-left corner
 
   display.println(F("    Encoder Pulse    "));
   display.println(F("  S T R E T C H E R  "));
   display.println(F("   by Andy Geppert   "));
-  display.println(F(" "));  
-  display.print(F("Hardware: "));  
+  display.print(F("      Vin: "));
+  display.println(GetVoltagemV(),DEC);
+
+  display.print(F("HW: "));  
   display.println(F(HARDWARE_VERSION));
-  display.print(F("Firmware: "));
+  display.print(F("FW: "));
   display.println(F(FIRMWARE_VERSION));
   display.print(F("State: "));
   display.print(TopLevelStateLocal,DEC); 
@@ -60,7 +64,7 @@ void OLEDScreenSplash() {
   display.print(F(" Speed: "));
   display.println(Encoder_Input_Speed,DEC);  
 
-  OLED_Display_Stability_Work_Around();
+  display.display();
 }
 
 void OLEDScreenSetup() {
@@ -79,21 +83,21 @@ void OLEDScreenSetup() {
 }
 
 void OLEDScreenUpdate() {
-  static unsigned long UpdatePeriodms = 100;  
+  static unsigned long UpdatePeriodms = 250;  
   static unsigned long NowTime = 0;
   static unsigned long UpdateTimer = 0;
   NowTime = millis();
   if ((NowTime - UpdateTimer) >= UpdatePeriodms)
   {
     UpdateTimer = NowTime;
-    OLEDScreenSplash();                             // TO DO: This refresh causes the aqua colored Hackaday logo (and others) to blink. Is it signal interference?
+    OLEDScreenStatus();
   }
 }
 
 void OLEDScreenClear() {
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    OLED_Display_Stability_Work_Around();
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.display();
 }
 
 void OLEDSetTopLevelState(uint8_t state) {
