@@ -23,16 +23,16 @@ void ReadAnalogVoltage() {
   2500 mV per 1023 counts (10-bit) = 2.444 (mV/count) will show 24.2% of actual ADC pin voltage.
   One more step, now divide the scalar above by .242 to see actual voltage = 10.1 (mV/count)
   ADC (counts) * 10.1 = theoretical voltage in mV
-  Reading range of Vin: 2.5 to 10.3
 
   Scalar | Multimeter (V) | OLED Display (mv) | Scalar Adjustment needed
-  10.1   | 4.72           | 5413              | reduce by 15%
-   8.6   | 4.72           | 4610              | increase by 2%
-   8.8   | 4.72           | 4712              | PASS!
-
+  Measurements below are done with power applied into Vin (instead of 5V output... oops)
+  10.1   | 5.53           | 5400              | increase by 2% (resistor tolerance is questinable)
+  10.35  | 5.53           | 5516              | PASS!
+  
+  !!! Arduino Nano Every becomes unstable below 3.6V Vin !!!
 */
   static unsigned long BatteryHalfADC = 0 ;
-  static float BatteryScalarADCtomV = 8.8 ; // Adjusted to match at 4.72V
+  static float BatteryScalarADCtomV = 10.35 ; // Adjusted to match at 4.72V
   BatteryHalfADC = analogRead(PIN_BATTERY_VOLTAGE);
   BatterymV = (uint16_t)(BatteryHalfADC * BatteryScalarADCtomV);
 }
