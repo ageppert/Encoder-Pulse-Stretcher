@@ -19,7 +19,7 @@
  * V0.2 hand re-worked updates on V0.1 for first bring-up.
 */
 //                    "FW: 45678901234567890" 20 [small font 1] characters combined maximum
-#define FIRMWARE_VERSION  "0.0.6 Dev. Brach"
+#define FIRMWARE_VERSION  "0.0.12 Volt Cal."
 
 const String FirmwareVersion = FIRMWARE_VERSION;
 const String HardwareVersion = HARDWARE_VERSION;
