@@ -12,12 +12,14 @@
 
 // TO DO: connect version number to a value that the firmware can interact with and display.
 
+//                    "HW: 45678901234567890" 20 [small font 1] characters combined maximum
 #define HARDWARE_VERSION  "0.0.1 Breadboard"   		
 /* 
  * V0.1 the first batch of 5 prototype green boards. 
  * V0.2 hand re-worked updates on V0.1 for first bring-up.
 */
-#define FIRMWARE_VERSION  "0.0.5 Vin Display"
+//                    "FW: 45678901234567890" 20 [small font 1] characters combined maximum
+#define FIRMWARE_VERSION  "0.0.6 Dev. Brach"
 
 const String FirmwareVersion = FIRMWARE_VERSION;
 const String HardwareVersion = HARDWARE_VERSION;
