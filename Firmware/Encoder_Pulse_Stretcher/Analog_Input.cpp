@@ -32,17 +32,17 @@ void ReadAnalogVoltage() {
   !!! Arduino Nano Every becomes unstable below 3.6V Vin !!!
 */
   static unsigned long BatteryHalfADC = 0 ;
-  static float BatteryScalarADCtomV = 10.35 ; // Adjusted to match at 4.72V
+  static float BatteryScalarADCtomV = 10.35 ;
   BatteryHalfADC = analogRead(PIN_BATTERY_VOLTAGE);
   BatterymV = (uint16_t)(BatteryHalfADC * BatteryScalarADCtomV);
 }
 
 void AnalogSetup() {
-  pinMode(PIN_BATTERY_VOLTAGE, INPUT);        // Not required, but makes it clear what this pin is for.
+  pinMode(PIN_BATTERY_VOLTAGE, INPUT); // Not required, but makes it clear what this pin is for.
   ReadAnalogVoltage();
   
   #ifdef ARDUINO_AVR_NANO_EVERY
-    analogReference(INTERNAL2V5); // Use one of the references
+    analogReference(INTERNAL2V5);
   #else
     Serial.println("Warning: For Nano Every only - stoped!");
     While(true) delay(10);

@@ -14,11 +14,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "HardwareIOMap.h"
 #include "Heart_Beat.h"
 #include "Serial_Debug.h"
 #include "OLED_Screen.h"
 #include "Buttons.h"
 #include "Analog_Input.h"
+#include "Encoder_Input.h"
 
 #define DEBUG 1
 
@@ -26,12 +28,10 @@ uint8_t TopLevelState;   // Master State Machine
 bool TopLevelStateChanged = false;
 enum TopLevelState
 {
-  STATE_START = 0,         //  0 
+  STATE_START = 0,        //  0 
   STATE_RUN,              //  1 
-  STATE_LAST                       //   last one, return to 0.
+  STATE_LAST              //   last one, return to 0.
 } ;
-
-
 
   /*                      *********************
                           ***     Setup     ***
@@ -47,6 +47,7 @@ void setup() {
     Serial.println("Serial Debug Port Started at ");
   OLEDScreenSetup();
   ButtonsSetup();
+  EncoderInputSetup();
   TopLevelState = STATE_START;
 }
 
@@ -63,6 +64,7 @@ void loop() {
   HeartBeat();
   AnalogUpdate();
   OLEDScreenUpdate();
+  EncoderInputTest();
   
   /*                      ************************
                           *** User Interaction ***
@@ -120,7 +122,7 @@ void CheckForSerialCommand() {
     switch(c)
     {
     case 'c':
-      
+      Serial.println("c");
       break;
 
     default:
