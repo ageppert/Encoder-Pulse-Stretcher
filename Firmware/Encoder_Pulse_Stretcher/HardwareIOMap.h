@@ -31,8 +31,8 @@ extern "C" {
   	#define PIN_ENCODER_IN_B           10    
 
 // Hardware for outgoing (emulated) encoder
-	#define PIN_ENCODER_OUT_A           10  
-	#define PIN_ENCODER_OUT_B           11   
+	#define PIN_ENCODER_OUT_A          11  
+	#define PIN_ENCODER_OUT_B          12   
 
 
 // Hardware for Buttons
