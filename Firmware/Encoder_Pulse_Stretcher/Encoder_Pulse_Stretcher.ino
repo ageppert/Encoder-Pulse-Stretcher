@@ -44,7 +44,8 @@ void setup() {
     Serial.begin(115200);  // Need to move this serial stuff into the Serial_Debug.c file out of here!
     //while (!Serial) { ; } // wait for serial port to connect. Needed for native USB port only
     Serial.println();
-    Serial.println("Serial Debug Port Started at ");
+    Serial.print("Serial Debug Port Started at ");
+    Serial.println(SERIAL_PORT_SPEED);
   OLEDScreenSetup();
   ButtonsSetup();
   EncoderInputSetup();
@@ -65,7 +66,12 @@ void loop() {
   AnalogUpdate();
   OLEDScreenUpdate();
   EncoderInputTest();
-  
+  uint16_t EncoderSpeedCPmS = GetEncoderInputSpeedCPmS();
+  if (EncoderSpeedCPmS)
+  {
+     Serial.print("      ");
+     Serial.println(EncoderSpeedCPmS);
+  }
   /*                      ************************
                           *** User Interaction ***
                           ************************

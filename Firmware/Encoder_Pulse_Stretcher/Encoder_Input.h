@@ -21,7 +21,8 @@ SETUP:
 
 void EncoderInputSetup();
 void EncoderInputTest();
-int32_t GetEncoderInputPosition();
+uint16_t GetEncoderInputSpeedCPmS();
+uint32_t GetEncoderInputPositionCounts();
 
 //#ifdef __cplusplus
 //} // extern "C"
