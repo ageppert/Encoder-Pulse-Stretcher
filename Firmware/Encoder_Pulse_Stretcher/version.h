@@ -18,7 +18,7 @@
  * V0.0.1 the first breadboard proof-of-concept. 
 */
 //                    "FW: 45678901234567890" 20 [small font 1] characters combined maximum
-#define FIRMWARE_VERSION  "0.0.28 Enc.I spd "
+#define FIRMWARE_VERSION  "0.0.29 EncIO.2109"
 
 const String FirmwareVersion = FIRMWARE_VERSION;
 const String HardwareVersion = HARDWARE_VERSION;

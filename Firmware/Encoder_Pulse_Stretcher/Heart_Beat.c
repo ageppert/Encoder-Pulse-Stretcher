@@ -7,6 +7,8 @@
 #include <WProgram.h>
 #endif
 
+#include "src/DigitalWriteFast/DigitalWriteFast.h"
+
 #include "HardwareIOMap.H"
 
 void HeartBeatSetup() {
@@ -28,5 +30,5 @@ void HeartBeat() {
     HeartBeatSequencePosition++;
     if(HeartBeatSequencePosition>3) {HeartBeatSequencePosition = 0;}
   }
-  digitalWrite(PIN_BUILT_IN_LED, LED_HEARTBEAT_STATE);
+  digitalWriteFast(PIN_BUILT_IN_LED, LED_HEARTBEAT_STATE);
 }

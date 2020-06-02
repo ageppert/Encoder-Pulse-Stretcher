@@ -10,10 +10,22 @@
  * 
  * 
  */
-
+// LIBRARY DEPENDENCIES FROM ARDUINO IDE, used here or in other files.
 #include <stdint.h>
 #include <stdbool.h>
 
+// YES #include "src/DigitalWriteFast/DigitalWriteFast.h"
+
+
+// <DigitalWriteFast.h>   
+// #include <DigitalIO.h>
+// <DigitalIO.h> by Bill Greiman 1.0.0 (defaults to slow for unknown architectures)
+// NO: 
+
+
+// <FastDigitalPin.h>     Romans Audio FastDigitalPin Library by Michael Romans 1.0.1
+
+// OTHER PROJECT FILES IN COMMON FOLDER
 #include "HardwareIOMap.h"
 #include "Heart_Beat.h"
 #include "Serial_Debug.h"
@@ -24,19 +36,25 @@
 
 #define DEBUG 1
 
+//
+// GLOBAL VARIABLES (all must be defined here, and preferably declared too, then use EXTERN in files where they are to be used)
+//
+// since interrupts change these variables, use volatile in definition.
+volatile uint32_t DiffOutputEncoderPulseTimeUs = 0; // TO DO: these delta times can probably be 16 bit
+volatile bool EncoderInputDirection = 0;
+
 uint8_t TopLevelState;   // Master State Machine
 bool TopLevelStateChanged = false;
 enum TopLevelState
 {
   STATE_START = 0,        //  0 
   STATE_RUN,              //  1 
-  STATE_LAST              //   last one, return to 0.
+  STATE_LAST              //  last one, return to 0.
 } ;
 
-  /*                      *********************
-                          ***     Setup     ***
-                          *********************
-  */
+/*                      *********************
+                        ***     Setup     ***
+                        *********************/
 void setup() {
   HeartBeatSetup();
   AnalogSetup();
@@ -53,6 +71,9 @@ void setup() {
 }
 
 void loop() {
+  //
+  // LOCAL VARIABLES for the main loop
+  //
   static uint8_t ColorFontSymbolToDisplay = 2;
   static bool ButtonReleased = true;
   static uint32_t Button1HoldTime = 0;
@@ -60,18 +81,18 @@ void loop() {
 
   /*                      *********************
                           *** Housekeepting ***
-                          *********************
-  */
+                          *********************/
   HeartBeat();
   AnalogUpdate();
   OLEDScreenUpdate();
-  EncoderInputTest();
-  uint16_t EncoderSpeedCPmS = GetEncoderInputSpeedCPmS();
-  if (EncoderSpeedCPmS)
-  {
-     Serial.print("      ");
-     Serial.println(EncoderSpeedCPmS);
-  }
+  EncoderInputPositionCountsTest();
+
+//  uint16_t EncoderSpeedCPuS = GetEncoderInputSpeedCPuS();
+//  if (EncoderSpeedCPuS)
+//  {
+//     Serial.print("      ");
+//     Serial.println(EncoderSpeedCPuS);
+//  }
   /*                      ************************
                           *** User Interaction ***
                           ************************

@@ -7,11 +7,13 @@
 #endif
 
 #include "version.h"
+#include "config.h"
 #include <Wire.h>   // Default is SCL0 and SDA0 on pins 19/18 of Teensy LC
 //#define Pin_I2C_Bus_Data       18    // Default is SCL0 and SDA0 on pins 19/18 of Teensy LC. #define not needed, as Wire.h library takes care of this pin configuration.
 //#define Pin_I2C_Bus_Clock      19    // Default is SCL0 and SDA0 on pins 19/18 of Teensy LC. #define not needed, as Wire.h library takes care of this pin configuration.
 #include "Analog_Input.h"
 #include "HardwareIOMap.h"
+#include "Encoder_Input.h"
 
 #include <Adafruit_GFX.h>
 //#include "src/Adafruit-GFX-Library-1.4.8/Adafruit_GFX.h" // ToDo: include this and use a later version.
@@ -24,11 +26,6 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 uint8_t TopLevelStateLocal = 0;
-
-uint8_t Encoder_Input_PPR = 7; // TO DO move this to another file
-uint8_t Encoder_Output_PPR = 3; // TO DO move this to another file
-uint8_t Encoder_Input_Speed = 0; // TO DO move this to another file
-uint8_t Encoder_Input_Dir = 1;   // TO DO move this to another file
 
 void OLEDScreenSplash() {
   display.clearDisplay();
@@ -53,16 +50,18 @@ void OLEDScreenStatus() {
   display.println(F(HARDWARE_VERSION));
   display.print(F("FW: "));
   display.println(F(FIRMWARE_VERSION));
-  display.print(F("State: "));
-  display.print(TopLevelStateLocal,DEC); 
-  display.print(F("  PPR: "));
-  display.print(Encoder_Input_PPR,DEC); 
-  display.print(F(" -> "));
-  display.println(Encoder_Output_PPR,DEC); 
-  display.print(F("Dir: "));
-  display.print(Encoder_Input_Dir,DEC);  
-  display.print(F(" Speed: "));
-  display.println(Encoder_Input_Speed,DEC);  
+  // display.print(F("State: "));
+  // display.print(TopLevelStateLocal,DEC); 
+  // display.print(F("  PPR: "));
+  // display.print(Encoder_Input_PPR,DEC); 
+  // display.print(F(" -> "));
+  // display.println(Encoder_Output_PPR,DEC); 
+  // display.print(F(" Dir:"));
+  // display.println(GetEncoderInputDirection(),DEC);  
+  display.print(F("I(us): "));
+  display.println(GetDiffInputEncoderPulseTimeUs(),DEC);  
+  display.print(F("O(us): "));
+  display.println(GetDiffOutputEncoderPulseTimeUs(),DEC);  
 
   display.display();
 }

@@ -15,17 +15,22 @@ SETUP:
 
 #include <stdint.h>
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void EncoderInputSetup();
-void EncoderInputTest();
+void EncoderInputPositionCountsTest();
 uint16_t GetEncoderInputSpeedCPmS();
+uint16_t GetEncoderInputSpeedCPuS();
 uint32_t GetEncoderInputPositionCounts();
+uint32_t GetEncoderInputPulseTimeUs();
+uint32_t GetDiffInputEncoderPulseTimeUs();
+uint32_t GetDiffOutputEncoderPulseTimeUs();
+bool GetEncoderInputDirection();
 
-//#ifdef __cplusplus
-//} // extern "C"
-//#endif
-
+#ifdef __cplusplus
+} // extern "C"
 #endif
+
+#endif // ENCODER_INPUT_H
