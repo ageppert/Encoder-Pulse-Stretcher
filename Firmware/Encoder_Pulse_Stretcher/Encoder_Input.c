@@ -152,6 +152,7 @@ void EncoderInputSetup() {
   pinMode(PIN_ENCODER_OUT_B, OUTPUT);
 
 
+// FROM: https://forum.arduino.cc/index.php?topic=668204
 // Arduino Nano Every Timer/Counter A example
 // =========================================================
 // There is one type A timer/counter (TCA0) and it has three

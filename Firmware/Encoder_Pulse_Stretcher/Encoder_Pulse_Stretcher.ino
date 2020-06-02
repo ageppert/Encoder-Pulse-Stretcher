@@ -1,11 +1,11 @@
 /*
  * Encoder Pulse Stretcher
- * 2020 Andy Geppert
+ * 2020 May/June Andy Geppert
  * Arduino Nano Every (Arduino MegaAVR Boards must be added through boards manager)
  * 
- * Monitors incoming encoder A & B channels with interrupt precision on channel A.
- * Determines period between channel A pulses, and the direction of rotation.
- * Updates outgoing virtual encoder A & B channels, with increased period per in/out ratio.
+ * Counts incoming encoder A & B channel with interrupts.
+ * Determines period between channel A and B pulse changes, and the direction of rotation.
+ * Updates outgoing virtual encoder A & B channels with 1ms timer interrupt, with increased period per in/out ratio.
  * 
  * 
  * 
@@ -14,15 +14,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// YES #include "src/DigitalWriteFast/DigitalWriteFast.h"
-
-
+// MAYBE:
 // <DigitalWriteFast.h>   
 // #include <DigitalIO.h>
 // <DigitalIO.h> by Bill Greiman 1.0.0 (defaults to slow for unknown architectures)
 // NO: 
-
-
 // <FastDigitalPin.h>     Romans Audio FastDigitalPin Library by Michael Romans 1.0.1
 
 // OTHER PROJECT FILES IN COMMON FOLDER
@@ -33,6 +29,7 @@
 #include "Buttons.h"
 #include "Analog_Input.h"
 #include "Encoder_Input.h"
+// YES #include "src/DigitalWriteFast/DigitalWriteFast.h"
 
 #define DEBUG 1
 
